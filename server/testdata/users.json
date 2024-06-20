@@ -1,8 +1,13 @@
 [
     { "id":"uid-1", "username": "user1", "email": "user1@example.com", "name": "user 1", "status": 1,  "main_department": "1"},
+    { "id":"uid-1.1", "username": "user1.1", "email": "user1.1@example.com", "name": "user 1.1", "status": 1,  "main_department": "1"},
+    { "id":"uid-1.2", "username": "user1.2", "email": "user1.2@example.com", "name": "user 1.2", "status": 1,  "main_department": "1"},
 
     { "id":"uid-2", "username": "user2", "email": "user2@example.com", "name": "user 2", "status": 1,  "main_department": "1.1"},
+    { "id":"uid-2.1", "username": "user2.1", "email": "user2.1@example.com", "name": "user 2.1", "status": 1,  "main_department": "1.1"},
+
     { "id":"uid-3", "username": "user3", "email": "user3@example.com", "name": "user 3", "status": 1,  "main_department": "1.2"},
+    { "id":"uid-3.1", "username": "user3.1", "email": "user3.1@example.com", "name": "user 3.1", "status": 1,  "main_department": "1.2"},
 
     { "id":"uid-4", "username": "user4", "email": "user4@example.com", "name": "user 4", "status": 1,  "main_department": "1.1.1"},
     { "id":"uid-5", "username": "user5", "email": "user5@example.com", "name": "user 5", "status": 1,  "main_department": "1.1.2"},

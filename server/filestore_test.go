@@ -9,14 +9,14 @@ import (
 
 func Test_jsonfile_store(t *testing.T) {
 	{
-		store := newJsonFileStore[*spec.Department]("./testdata/departments.json")
+		store := newJSONFileStore[*spec.Department]("./testdata/departments.json")
 		data := store.load()
 		assert.NotEmpty(t, data)
 		assert.Equal(t, "1", data[0].ID)
 	}
 
 	{
-		store := newJsonFileStore[*spec.User]("./testdata/users.json")
+		store := newJSONFileStore[*spec.User]("./testdata/users.json")
 		data := store.load()
 		assert.NotEmpty(t, data)
 		assert.Equal(t, "uid-1", data[0].ID)

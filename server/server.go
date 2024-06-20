@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"strconv"
 
+	spec "github.com/idaaser/syncspecv1"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -12,9 +13,9 @@ import (
 // New 创建一个新的服务
 func New(port int, opts ...Option) *Server {
 	srv := &Server{
-		port:    port,
-		clients: &memoryClientStore{clients: map[string]string{}},
-		tokens:  &anyTokenStore{},
+		port:     port,
+		clients:  &allowAnyAs{},
+		contacts: &nopcs{},
 	}
 
 	for _, opt := range opts {
@@ -29,12 +30,11 @@ type (
 	Server struct {
 		port int
 
-		clients  ClientStore
-		tokens   TokenStore
+		clients  AuthnStore
 		contacts ContactStore
 	}
 
-	// Option Server可接受的参数
+	// Option Server可接受的配置选项
 	Option func(srv *Server)
 )
 
@@ -42,17 +42,30 @@ type (
 func (s *Server) Start() {
 	e := echo.New()
 	e.Use(middleware.Recover())
+	e.Use(middleware.Logger())
+	e.Use(middleware.RequestIDWithConfig(
+		middleware.RequestIDConfig{
+			RequestIDHandler: func(c echo.Context, reqid string) {
+				// 把X-Request-ID写到context中
+				c.Set("reqid", reqid)
+			},
+		},
+	))
 
 	v1 := e.Group("/v1")
 	v1.GET("/.well-known", s.wellknown)
+	// 生成access_token
 	v1.POST("/token", s.token)
 
 	withAuth := v1.Group("", s.authn())
-	withAuth.GET("/users:search", s.serarchUser)
-	withAuth.GET("/users", s.listUsersInDept)
-
-	withAuth.GET("/depts:search", s.searchDept)
+	// 分页获取部门详情
 	withAuth.GET("/depts", s.listDepts)
+	// 根据关键字, 搜索部门
+	withAuth.GET("/depts:search", s.searchDept)
+	// 分页获取指定部门下的用户详情
+	withAuth.GET("/users", s.listUsersInDept)
+	// 根据关键字, 搜索用户
+	withAuth.GET("/users:search", s.serarchUser)
 
 	e.Logger.Fatal(e.Start(":" + strconv.Itoa(s.port)))
 }
@@ -80,4 +93,17 @@ func (s *Server) host(c echo.Context) string {
 	}
 
 	return c.Request().Host
+}
+
+func (s *Server) returnJSONError(c echo.Context, status int, code string, err error) error {
+	resp := spec.ErrResponse{Code: code, Msg: err.Error()}
+	if reqid, ok := c.Get("reqid").(string); ok {
+		resp.RequestID = reqid
+	}
+
+	return c.JSON(status, resp)
+}
+
+func (s *Server) returnBadRequest(c echo.Context, err error) error {
+	return s.returnJSONError(c, 400, spec.ErrInvalidRequest, err)
 }

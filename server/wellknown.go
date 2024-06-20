@@ -14,7 +14,7 @@ func (s *Server) wellknown(c echo.Context) error {
 		ListUsersInDeptEndpoint:  s.absoluteURL(c, "v1", "users"),
 		SearchUserEndpoint:       s.absoluteURL(c, "v1", "users:search"),
 		ListDepartmentsEndpoint:  s.absoluteURL(c, "v1", "depts"),
-		SearchDepartmentEndpoint: s.absoluteURL(c, "v1", "depts:list"),
+		SearchDepartmentEndpoint: s.absoluteURL(c, "v1", "depts:search"),
 	}
 
 	return c.JSON(200, w)
