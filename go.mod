@@ -3,7 +3,7 @@ module github.com/idaaser/syncdemov1
 go 1.18
 
 require (
-	github.com/idaaser/syncspecv1 v0.0.0
+	github.com/idaaser/syncspecv1 v0.0.1
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/lestrrat-go/jwx/v2 v2.1.0
 	github.com/stretchr/testify v1.9.0
@@ -35,4 +35,4 @@ require (
 )
 
 // local debug
-replace github.com/idaaser/syncspecv1 v0.0.0 => ../syncspecv1
+//replace github.com/idaaser/syncspecv1 v0.0.1 => ../syncspecv1
