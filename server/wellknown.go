@@ -7,10 +7,7 @@ import (
 
 func (s *Server) wellknown(c echo.Context) error {
 	w := spec.Wellknown{
-		TokenEndpoint: s.absoluteURL(c, "v1", "token"),
-		TokenEndpointAuthMethods: []string{
-			spec.TokenEndpointAuthMethodBasic, spec.TokenEndpointAuthMethodPost,
-		},
+		TokenEndpoint:            s.absoluteURL(c, "v1", "token"),
 		ListUsersInDeptEndpoint:  s.absoluteURL(c, "v1", "users"),
 		SearchUserEndpoint:       s.absoluteURL(c, "v1", "users:search"),
 		ListDepartmentsEndpoint:  s.absoluteURL(c, "v1", "depts"),

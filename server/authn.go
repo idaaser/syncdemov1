@@ -15,11 +15,6 @@ func (s *Server) token(c echo.Context) error {
 		return s.returnBadRequest(c, err)
 	}
 
-	if clientid, clientsecret, ok := c.Request().BasicAuth(); ok {
-		req.ClientID = clientid
-		req.ClientSecret = clientsecret
-	}
-
 	if err := req.Validate(); err != nil {
 		return s.returnBadRequest(c, err)
 	}
