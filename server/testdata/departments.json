@@ -1,17 +1,17 @@
 [
-    { "id": "1", "parent": "", "name": "中国" },
+    { "id": "1", "parent": "", "name": "中国", "order": 1 },
 
-    { "id": "1.1", "parent": "1", "name": "北京" },
-    { "id": "1.2", "parent": "1", "name": "上海" },
-    { "id": "1.3", "parent": "1", "name": "辽宁" },
+    { "id": "1.1", "parent": "1", "name": "北京", "order": 1},
+    { "id": "1.2", "parent": "1", "name": "上海", "order": 2},
+    { "id": "1.3", "parent": "1", "name": "辽宁", "order": 3},
 
-    { "id": "1.1.1", "parent": "1.1", "name": "朝阳" },
-    { "id": "1.1.2", "parent": "1.1", "name": "海淀" },
-    { "id": "1.1.3", "parent": "1.1", "name": "西城" },
+    { "id": "1.1.1", "parent": "1.1", "name": "朝阳", "order": 1},
+    { "id": "1.1.2", "parent": "1.1", "name": "海淀", "order": 2},
+    { "id": "1.1.3", "parent": "1.1", "name": "西城", "order": 3},
 
-    { "id": "1.2.1", "parent": "1.2", "name": "虹桥" },
-    { "id": "1.2.2", "parent": "1.2", "name": "长宁" },
-    { "id": "1.2.3", "parent": "1.2", "name": "杨浦" },
+    { "id": "1.2.1", "parent": "1.2", "name": "虹桥", "order": 1},
+    { "id": "1.2.2", "parent": "1.2", "name": "长宁", "order": 2},
+    { "id": "1.2.3", "parent": "1.2", "name": "杨浦", "order":3},
 
-    { "id": "1.3.1", "parent": "1.3", "name": "朝阳" }
+    { "id": "1.3.1", "parent": "1.3", "name": "朝阳", "order":1}
 ]

@@ -100,7 +100,7 @@ func (s *jwtAuthnStore) verifyClient(_ context.Context, clientid, clientsecret s
 	return nil
 }
 
-func (s *jwtAuthnStore) issueToken(_ context.Context, clientid string) (*spec.GetTokenResponse, error) {
+func (s *jwtAuthnStore) issueToken(_ context.Context, clientid string) (*spec.Token, error) {
 	token := jwt.New()
 	_ = token.Set(jwt.SubjectKey, clientid)
 	_ = token.Set("spec", "v1")

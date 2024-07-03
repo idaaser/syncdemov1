@@ -23,7 +23,7 @@ func (s *Server) token(c echo.Context) error {
 	if err != nil {
 		return s.returnJSONError(c, 401, spec.ErrInvalidClient, err)
 	}
-	return c.JSON(200, tok)
+	return c.JSON(200, spec.GetTokenResponse{Token: tok})
 }
 
 const (

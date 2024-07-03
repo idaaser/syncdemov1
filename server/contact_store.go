@@ -132,8 +132,8 @@ func (c *contactsFS) SearchDepartment(ctx context.Context, kw string) ([]*spec.D
 		if strings.EqualFold(item.Name, kw) || strings.EqualFold(item.ID, kw) {
 			data = append(data, item)
 		}
-		// 返回前5个
-		if len(data) >= 5 {
+		// 返回前10个
+		if len(data) >= 10 {
 			break
 		}
 	}
@@ -160,8 +160,8 @@ func (c *contactsFS) SearchUser(_ context.Context, kw string) ([]*spec.User, err
 			eqp(item.Mobile, kw) || eqp(item.EmployeeNumber, kw) {
 			data = append(data, item)
 		}
-		// 返回前5个
-		if len(data) >= 5 {
+		// 返回前10个
+		if len(data) >= 10 {
 			break
 		}
 	}
