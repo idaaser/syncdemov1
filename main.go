@@ -10,7 +10,8 @@ import (
 )
 
 func main() {
-	srv := server.New(8888,
+	srv := server.New(
+		8000,
 		server.WithJWTAuthnStore(
 			generateRSAKey(),
 			30*time.Minute,
