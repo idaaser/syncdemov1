@@ -67,6 +67,18 @@ func (s *Server) Start() {
 	// 根据关键字, 搜索用户
 	withAuth.GET("/users:search", s.serarchUser)
 
+	// jit mock, for test only
+	jit := v1.Group("/jit/:prefix/:count", s.jit())
+	jit.GET("/.well-known", s.wellknown)
+
+	// 生成access_token
+	jit.POST("/token", s.token)
+	jitAuth := jit.Group("", s.authn())
+	// 分页获取部门详情
+	jitAuth.GET("/depts", s.listDepts)
+	// 分页获取指定部门下的用户详情
+	jitAuth.GET("/users", s.listUsersInDept)
+
 	e.Logger.Fatal(e.Start(":" + strconv.Itoa(s.port)))
 }
 
