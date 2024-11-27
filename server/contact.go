@@ -72,7 +72,7 @@ func (s *Server) listUsersInDept(c echo.Context) error {
 		return s.returnBadRequest(c, err)
 	}
 
-	data, err := s.contacts.ListUsersInDepartment(c.Request().Context(), req)
+	data, err := s.getContactStore(c).ListUsersInDepartment(c.Request().Context(), req)
 	if err != nil {
 		return s.returnBadRequest(c, err)
 	}
