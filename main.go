@@ -14,7 +14,7 @@ func main() {
 		8000,
 		server.WithJWTAuthnStore(
 			generateRSAKey(),
-			30*time.Minute,
+			120*time.Minute,
 			"client_id_1", "client_secret_1",
 			"client_id_2", "client_secret_2",
 		),
