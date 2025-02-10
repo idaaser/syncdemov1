@@ -61,11 +61,18 @@ func (s *Server) Start() {
 	// 分页获取部门详情
 	withAuth.GET("/depts", s.listDepts)
 	// 根据关键字, 搜索部门
-	withAuth.GET("/depts:search", s.searchDept)
+	withAuth.GET("/depts/search", s.searchDept)
 	// 分页获取指定部门下的用户详情
 	withAuth.GET("/users", s.listUsersInDept)
 	// 根据关键字, 搜索用户
-	withAuth.GET("/users:search", s.serarchUser)
+	withAuth.GET("/users/search", s.serarchUser)
+
+	// 分页获取group详情
+	withAuth.GET("/groups", s.listGroups)
+	// 根据关键字, 搜索group
+	withAuth.GET("/groups/search", s.searchGroup)
+	// 分页获取指定group下的用户id列表
+	withAuth.GET("/groups/users", s.listUsersInGroup)
 
 	// jit mock, for test only
 	jit := v1.Group("/jit/:prefix/:count", s.jit())

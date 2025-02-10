@@ -116,7 +116,7 @@ func (s *jitStore) newUser(deptid string, index int) *spec.User {
 	u.Name = id
 	u.Position = spec.Pointer("mock")
 	u.EmployeeNumber = spec.Pointer(id)
-	u.Status = spec.UserStatusInitialized
+	u.Active = true
 	u.Order = index
 	u.MainDepartmentID = deptid
 

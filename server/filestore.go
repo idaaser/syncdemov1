@@ -40,7 +40,7 @@ func (s *jsonFS[T]) sublist(start, size int) ([]T, int) {
 func sublist[T any](s []T, start, size int) ([]T, int) {
 	l := len(s)
 	if start >= l {
-		return nil, -1
+		return []T{}, -1
 	}
 
 	end := min(start+size, l)

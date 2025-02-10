@@ -2,13 +2,12 @@ package server
 
 import (
 	"context"
-	"crypto/rsa"
 	"fmt"
 	"time"
 
 	spec "github.com/idaaser/syncspecv1"
-	"github.com/lestrrat-go/jwx/v2/jwa"
-	"github.com/lestrrat-go/jwx/v2/jwt"
+	"github.com/lestrrat-go/jwx/v3/jwk"
+	"github.com/lestrrat-go/jwx/v3/jwt"
 )
 
 // WithAuthnStore 使用自定义的AuthnStore
@@ -20,7 +19,7 @@ func WithAuthnStore(store AuthnStore) Option {
 
 // WithJWTAuthnStore 使用JWT token的AuthnStore, 用内存来管理client_id/client_secret, 以及使用JWT的token来鉴权
 // 注: 使用RSA格式的私钥来签发鉴权token, 私钥长度建议>=2048
-func WithJWTAuthnStore(key *rsa.PrivateKey, exp time.Duration, clientIDAndSecrets ...string) Option {
+func WithJWTAuthnStore(key jwk.Key, exp time.Duration, clientIDAndSecrets ...string) Option {
 	store := &jwtAuthnStore{
 		clients: map[string]string{},
 		key:     key, exp: exp,
@@ -55,7 +54,7 @@ func (s *allowAnyAs) Verify(ctx context.Context, tok string) (string, error) {
 type jwtAuthnStore struct {
 	clients map[string]string
 
-	key any
+	key jwk.Key
 	exp time.Duration
 }
 
@@ -69,8 +68,9 @@ func (s *jwtAuthnStore) Auth(ctx context.Context, clientid, clientsecret string)
 }
 
 func (s *jwtAuthnStore) Verify(ctx context.Context, tok string) (string, error) {
+	alg, _ := s.key.Algorithm()
 	token, err := jwt.Parse([]byte(tok),
-		jwt.WithKey(jwa.RS256, s.key),
+		jwt.WithKey(alg, s.key),
 		jwt.WithAcceptableSkew(2*time.Minute),
 		jwt.WithClaimValue("spec", "v1"),
 	)
@@ -78,7 +78,7 @@ func (s *jwtAuthnStore) Verify(ctx context.Context, tok string) (string, error) 
 		return "", err
 	}
 
-	sub := token.Subject()
+	sub, _ := token.Subject()
 	if _, found := s.clients[sub]; !found {
 		return "", fmt.Errorf("invalid client_id %q", sub)
 	}
@@ -108,8 +108,9 @@ func (s *jwtAuthnStore) issueToken(_ context.Context, clientid string) (*spec.To
 	_ = token.Set(jwt.NotBeforeKey, time.Now().Unix())
 	_ = token.Set(jwt.ExpirationKey, time.Now().Add(s.exp).Unix())
 
+	alg, _ := s.key.Algorithm()
 	tok, err := jwt.Sign(token,
-		jwt.WithKey(jwa.RS256, s.key),
+		jwt.WithKey(alg, s.key),
 	)
 	if err != nil {
 		return nil, err

@@ -12,9 +12,12 @@ func (s *Server) wellknown(c echo.Context) error {
 	w := spec.Wellknown{
 		TokenEndpoint:            s.absoluteURL(c, u, "token"),
 		ListUsersInDeptEndpoint:  s.absoluteURL(c, u, "users"),
-		SearchUserEndpoint:       s.absoluteURL(c, u, "users:search"),
+		SearchUserEndpoint:       s.absoluteURL(c, u, "users/search"),
 		ListDepartmentsEndpoint:  s.absoluteURL(c, u, "depts"),
-		SearchDepartmentEndpoint: s.absoluteURL(c, u, "depts:search"),
+		SearchDepartmentEndpoint: s.absoluteURL(c, u, "depts/search"),
+		ListGroupsEndpoint:       s.absoluteURL(c, u, "groups"),
+		SearchGroupEndpoint:      s.absoluteURL(c, u, "groups/search"),
+		ListUsersInGroupEndpoint: s.absoluteURL(c, u, "groups/users"),
 	}
 
 	return c.JSON(200, w)

@@ -1,0 +1,11 @@
+[
+    { "id": "1", "members": ["uid-1", "uid-1.1"] }, 
+    { "id": "2", "members": ["uid-2", "uid-2.1"] }, 
+    { "id": "3", "members": ["uid-3"] }, 
+    { "id": "4", "members": ["uid-4"] }, 
+    { "id": "5", "members": ["uid-5"] }, 
+    { "id": "6", "members": ["uid-6"] }, 
+    { "id": "7", "members": [] }, 
+    { "id": "8", "members": [] },
+    { "id": "9", "members": [] }
+]

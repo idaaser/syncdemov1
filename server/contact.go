@@ -98,6 +98,62 @@ func (s *Server) serarchUser(c echo.Context) error {
 	return c.JSON(200, &spec.SearchUserResponse{Data: data})
 }
 
+func (s *Server) listGroups(c echo.Context) error {
+	req := spec.ListGroupRequest{}
+	if err := c.Bind(&req); err != nil {
+		return s.returnBadRequest(c, err)
+	}
+
+	data, err := s.getContactStore(c).
+		ListGroups(c.Request().Context(), req)
+	if err != nil {
+		return s.returnBadRequest(c, err)
+	}
+	return c.JSON(200, spec.ListGroupResponse{PagingGroups: *data})
+}
+
+func (s *Server) searchGroup(c echo.Context) error {
+	req := spec.SearchGroupRequest{}
+	if err := c.Bind(&req); err != nil {
+		return s.returnBadRequest(c, err)
+	}
+	keyword := strings.TrimSpace(req.Keyword)
+	if keyword == "" {
+		return c.JSON(200, spec.SearchGroupResponse{
+			Data: []*spec.Group{},
+		})
+	}
+
+	data, err := s.getContactStore(c).
+		SearchGroup(c.Request().Context(), keyword)
+	if err != nil {
+		return s.returnBadRequest(c, err)
+	}
+
+	if data == nil {
+		return c.JSON(200, &spec.SearchGroupResponse{Data: []*spec.Group{}})
+	}
+	return c.JSON(200, &spec.SearchGroupResponse{Data: data})
+}
+
+func (s *Server) listUsersInGroup(c echo.Context) error {
+	req := spec.ListGroupMembershipRequest{}
+	if err := c.Bind(&req); err != nil {
+		return s.returnBadRequest(c, err)
+	}
+	if err := req.Validate(); err != nil {
+		return s.returnBadRequest(c, err)
+	}
+
+	data, err := s.getContactStore(c).ListUsersInGroup(c.Request().Context(), req)
+	if err != nil {
+		return s.returnBadRequest(c, err)
+	}
+	return c.JSON(200, spec.ListGroupMembershipResponse{
+		Members: *data,
+	})
+}
+
 func (s *Server) getContactStore(c echo.Context) ContactStore {
 	store := c.Get("_store_")
 	if store == nil {
