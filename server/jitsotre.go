@@ -94,6 +94,19 @@ func (s *jitStore) ListUsersInDepartment(_ context.Context, req spec.ListUsersIn
 	}, nil
 }
 
+func (s *jitStore) ListGroups(context.Context, spec.ListGroupRequest) (*spec.PagingGroups, error) {
+	return &spec.PagingGroups{Data: []*spec.Group{}}, nil
+}
+
+func (s *jitStore) SearchGroup(context.Context, string) ([]*spec.Group, error) {
+	return []*spec.Group{}, nil
+}
+
+// 分页返回指定group下的用户id列表
+func (s *jitStore) ListUsersInGroup(context.Context, spec.ListGroupMembershipRequest) (*spec.PagingResult[string], error) {
+	return &spec.PagingResult[string]{Data: []string{}}, nil
+}
+
 func (s *jitStore) newDepartment(index int) *spec.Department {
 	width := fmt.Sprintf("%d", len(strconv.Itoa(s.dept)))
 	format := "%s-%0" + width + "d"
