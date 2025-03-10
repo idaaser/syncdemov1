@@ -51,6 +51,9 @@ type ContactStore interface {
 // nopcs 不返回任何数据的ContactStore. 注: 仅用于测试
 type nopcs struct{}
 
+// interface compliance
+var _ ContactStore = (*nopcs)(nil)
+
 // ListDepartments 实现ContactStore接口
 func (c *nopcs) ListDepartments(context.Context, spec.ListDepatmentRequest) (
 	*spec.PagingDepartments, error,
@@ -99,6 +102,9 @@ type contactsFS struct {
 	group       *jsonFS[*spec.Group]
 	groupMember *jsonFS[*groupMembership]
 }
+
+// interface compliance
+var _ ContactStore = (*contactsFS)(nil)
 
 // ListGroups implements ContactStore.
 func (c *contactsFS) ListGroups(_ context.Context, req spec.ListGroupRequest) (*spec.PagingGroups, error) {

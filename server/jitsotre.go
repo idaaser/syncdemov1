@@ -32,6 +32,9 @@ type (
 	}
 )
 
+// interface compliance
+var _ ContactStore = (*jitStore)(nil)
+
 func (s *jitStore) ListDepartments(_ context.Context, req spec.ListDepatmentRequest) (*spec.PagingDepartments, error) {
 	paging := asindexBasedPaging(req)
 	start, end := paging.start(), paging.end()
